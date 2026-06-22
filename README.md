@@ -37,15 +37,13 @@ pip install numpy pandas scikit-learn xgboost xgbse lifelines shap \
 GPU training requires an NVIDIA GPU with CUDA drivers installed.  
 Set `"device": "cpu"` in `PARAMS_XGB_AFT` inside `demo1_model_construction.py` to run on CPU.
 
-## The repository contains the following files:
 ### 1. **Tumor Burden Measurement**
 - **File**: `Demo_VolumetricFeatureExtraction.mat`  
 - **Description**: Extract volumetric Features
 - End-to-end MATLAB pipeline for extracting Base and Advance volumetric / radiomics features from CT volumes and segmentation masks stored in NIfTI format.
 - Please see the details in 'README_Demo_VolumetricFeatureExtraction.md'
 
-### 2 – Prepare your data
-
+### 2. **Prepare the data**
 Each cohort requires **Excel files contains the input features** (including clinical, routine blood test, CT-based tumor volumetrics measuremnet including pre-treatment, post-treatment and delta):
 
 | File | Description |
@@ -62,7 +60,7 @@ Each file must contain:
 
 Update the `train_data_dir` and `test_data_dir` paths at the top of **Demo 1**.  [Check this!!!]
 
-### 3 – Run demos in order
+### 3. **Run demos in order**
 
 ```bash
 python demo1_model_construction.py        # trains model, saves xgb_model.json + SHAP
@@ -223,13 +221,6 @@ The following functions are imported in Demo 2:
 - **Description**: Visualizes feature selection frequency across models. Generates bar plots and histograms to analyze selected features.  
 - **Inputs**: Model outputs and feature metadata (`Type.xlsx`).  
 - **Outputs**: Feature selection bar plots.
-
-## Results
-- **Treatment Recommendations**: I-SABR-SELECT identified a significant subgroup of patients benefiting from adding immunotherapy.
-- **Improved Outcomes**: Patients treated following model recommendations demonstrated superior event-free survival (EFS) compared to random treatment assignment.
-
-
-<!--![OncoTwin Pipeline](Figures/Results.png)-->
 
 ## Citation
 If you use this framework, please cite our work:
