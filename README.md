@@ -10,19 +10,39 @@ OncoTwin is a generalizable multimodal digital-twin framework to model individua
 **4.	Biological and therapeutic insight:** Beyond aggregate endpoints, OncoTwin revealed early-response heterogeneity between TKI generations, with second-generation TKIs achieving superior whole-body and organ-specific responses, and enabled TKI-specific risk stratification to support more granular treatment strategies.  
 **5.	Spatially resolved disease modeling:**  By capturing inter-patient differences, OncoT-win quantified not only whole-body but also organ-specific tumor burden dynamics, providing a foundation for organ adaptive therapeutic strategies and a deeper under-standing of site-specific resistance.
 
+## Repository Structure
+
+```
+digital_twins_survival/
+├── demo1_model_construction.py          # Part 1 – Feature engineering & XGBoost-AFT training
+├── demo2_calibration_digital_twin.py    # Part 2 – Post-hoc calibration & DT curve generation
+├── demo3_risk_stratification_visualization.py  # Part 3 – Risk stratification & figures
+├── utils_survival.py                    # Shared KM / SHAP / stat utility functions
+├── utils_calibration.py                 # Calibration pipeline (full_calibration_pipeline, etc.)
+└── README.md
+```
+
+---
+## Quick Start
+
 ## Installation
 To install the development version of OncoTwin using pip, run the following command:
 ```bash
 pip install git+https://github.com/WuLabMDA/OncoTwin.git
 ```
+```bash
+pip install numpy pandas scikit-learn xgboost xgbse lifelines shap \
+            matplotlib seaborn scipy dill openpyxl
+```
+GPU training requires an NVIDIA GPU with CUDA drivers installed.  
+Set `"device": "cpu"` in `PARAMS_XGB_AFT` inside `demo1_model_construction.py` to run on CPU.
 
 ## The repository contains the following files:
 ### 1. **Tumor Burden Measurement**
-- **File**: `S1_tumor_burden_measurement.mat`  
-- **Description**: Extract 
-- Trains the machine learning models using repeated cross-validation, bootstrapping, feature selection, and survival analysis. Implements Grey Wolf Optimizer for feature reduction.  
-- **Inputs**: `ISABR_trial.csv`, `matched_id.csv`, `unmatched_id.csv`  
-- **Outputs**: Trained models and cross-validation results.
+- **File**: `Demo_VolumetricFeatureExtraction.mat`  
+- **Description**: Extract volumetric Features
+- End-to-end MATLAB pipeline for extracting Base and Advance volumetric / radiomics features from CT volumes and segmentation masks stored in NIfTI format.
+- Please see the details in 'README_Demo_VolumetricFeatureExtraction.md'
 
 ### 2. **Model Training**
 - **File**: `S2_BarPlot.py`  
