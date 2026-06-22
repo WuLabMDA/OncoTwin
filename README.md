@@ -44,6 +44,162 @@ Set `"device": "cpu"` in `PARAMS_XGB_AFT` inside `demo1_model_construction.py` t
 - End-to-end MATLAB pipeline for extracting Base and Advance volumetric / radiomics features from CT volumes and segmentation masks stored in NIfTI format.
 - Please see the details in 'README_Demo_VolumetricFeatureExtraction.md'
 
+### 2 – Prepare your data
+
+Each cohort requires **Excel files contains the input features** (including clinical, routine blood test, CT-based tumor volumetrics measuremnet including pre-treatment, post-treatment and delta):
+
+| File | Description |
+|------|-------------|
+| `VolOriginal_clinical_<cohort>.xlsx`  | clincal baseline features |
+| `VolOriginal_Base_before_<cohort>.xlsx` | Pre-treatment volumetric features |
+| `VolOriginal_Base_overall_<cohort>.xlsx`  | overall features including clinical, blood test, CT-based tumor volumetrics measuremnets |
+
+Each file must contain:
+- A unique patient identifier column (e.g. `PatientID`)  
+- Tumor volumetrics columns spanning from `TV_Lung` to `ATS_AllTumor`  
+- Clinical columns: `Sex`, `Age`, `Smoker`, `Pathology`, `Drug`, `RECIST`, and lab test values  
+- Outcome columns: `PFS` (time in months), `PFS_events` (0 = censored, 1 = event)
+
+Update the `train_data_dir` and `test_data_dir` paths at the top of **Demo 1**.  [Check this!!!]
+
+### 3 – Run demos in order
+
+```bash
+python demo1_model_construction.py        # trains model, saves xgb_model.json + SHAP
+python demo2_calibration_digital_twin.py  # calibrates, builds DT curves, estimates ITE
+python demo3_risk_stratification_visualization.py  # risk groups, KM plots, SHAP figures
+```
+
+> **Tip:** Run interactively in JupyterLab by converting each script to a notebook  
+> (`jupytext --to notebook demo1_model_construction.py`).
+
+---
+
+## Demo Descriptions
+
+### Demo 1 — Model Construction (`demo1_model_construction.py`)
+
+| Step | Description |
+|------|-------------|
+| Data loading | Read feature tables for train and test cohort |
+| Categorical encoding | Binary-encode sex, race, smoking, pathology, RECIST |
+| Feature filtering | Remove highly correlated radiomic features (Pearson \|r\| > 0.98) |
+| XGBoost-AFT training | DART booster, GPU accelerated, 1000 boosting rounds |
+| Evaluation | Concordance index (C-index) on train and external test cohort |
+| Feature importance | Gain-based bar chart + SHAP beeswarm summary | [REMOVE from the Code!]
+
+**Key outputs:**  
+`results/model_output/xgb_model.json`  
+`results/model_output/feature_importance_gain.*`  
+`results/model_output/SHAP/SHAP_summary_*.png` [REMOVE from the Code!]
+
+---
+
+### Demo 2 — Calibration & Digital Twin (`demo2_calibration_digital_twin.py`)
+
+| Step | Description |
+|------|-------------|
+| Drug-stratified calibration | Fit Weibull / log-normal calibrators per drug arm using `full_calibration_pipeline` |
+| Brier score | Compute and plot time-varying Brier score + IBS |
+| Individual DT curves | Plot per-patient predicted survival curves with median / mean annotations |
+| ITE estimation | Estimate ΔRMST (LCT vs. no-LCT) per test patient via `estimate_LCT_ITE_for_test` |
+| Counterfactual plot | Plot patient's LCT vs. no-LCT counterfactual survival curves |
+| Export | Save Digital Twin PFS predictions and ITE table to CSV |
+
+**Key outputs:**  
+`results/model_output/Calibration_*/`  
+`results/model_output/ITE_test_cohort_60mo.csv`  
+`results/model_output/digital_twin_predictions.csv`
+
+---
+
+### Demo 3 — Risk Stratification & Visualization (`demo3_risk_stratification_visualization.py`)
+
+| Step | Description |
+|------|-------------|
+| Optimal cutoff | Log-rank search over percentile grid on training predictions |
+| Risk groups | Assign High / Low risk labels to train and test cohorts |
+| KM plots | Plot KM curves for risk groups; Digital Twin vs. Observed; four-curve overlays | [REMOVE 'four-curve overlays' from the Code!]
+| HR computation | Cox proportional hazards HR (High vs. Low; DT vs. Observed) |
+| SHAP aggregation | Overall beeswarm + correlation-filtered top-15 plot |
+| Top-6 bar chart | Publication-style horizontal bar chart of top SHAP features | [REMOVE from the Code!]
+| ITE correlation | Spearman ρ between features and ΔRMST, annotated with significance stars | [REMOVE from the Code!]
+
+**Key outputs:**  
+`results/model_output/KM_*.png`  
+`results/model_output/SHAP_summary_overall.png`  
+`results/model_output/cox_*.csv`
+
+---
+
+## Utility Modules
+
+### `utils_survival.py`
+
+Contains all KM plotting, statistical comparison, and SHAP utility functions
+used across the three demos.  No patient-specific data or file paths are
+hard-coded in this module.
+
+Key functions:
+
+| Function | Description |
+|----------|-------------|
+| `km_analysis` | Compute median PFS and N-month survival with 95% CI for up to four groups |
+| `remove_highly_correlated_features` | Pearson correlation pruning |
+| `plot_km_curve` | Two-arm KM plot with at-risk table |
+| `plot_km_curve_dashed` | Two-arm KM plot with configurable line styles |
+| `plot_multi_km` | Multi-arm KM plot with inline at-risk counts |
+| `compare_low_high` | Cox HR + log-rank p for two survival groups |
+| `safe_shap_summary_plot` | Memory-safe SHAP beeswarm + importance CSV |
+| `knn_predict_pfs` | KNN-based PFS prediction from risk scores |  [REMOVE from the Code!]
+| `best_cutoff_per_drug` | Per-drug optimal log-rank cutoff |
+| `compare_cindex_from_ci` | Approximate ΔC-index significance test from CIs |
+
+### `utils_calibration.py`
+
+Calibration-specific utilities (not included in this repository).  
+The following functions are imported in Demo 2:
+
+- `full_calibration_pipeline` — fits drug-stratified survival calibrators  
+- `plot_ibs_curve_DT` — plots time-varying Brier score  
+- `plot_patients_survival_DT_split_legend` — plots individual DT survival curves  
+- `estimate_LCT_ITE_for_test` — estimates per-patient ITE (ΔRMST) for LCT  
+- `plot_lct_counterfactual_for_patient` — counterfactual plot for one patient  
+
+---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ### 2. **Model Training**
 - **File**: `S2_BarPlot.py`  
 - **Description**: Visualizes feature selection frequency across models. Generates bar plots and histograms to analyze selected features.  
@@ -68,31 +224,27 @@ Set `"device": "cpu"` in `PARAMS_XGB_AFT` inside `demo1_model_construction.py` t
 - **Inputs**: Model outputs and feature metadata (`Type.xlsx`).  
 - **Outputs**: Feature selection bar plots.
 
-
-
 ## Results
 - **Treatment Recommendations**: I-SABR-SELECT identified a significant subgroup of patients benefiting from adding immunotherapy.
 - **Improved Outcomes**: Patients treated following model recommendations demonstrated superior event-free survival (EFS) compared to random treatment assignment.
 
 
-![OncoTwin Pipeline](Figures/Results.png)
-
-## Reference: https://github.com/WuLabMDA/ISABR-SELECT [should delete at the end]
+<!--![OncoTwin Pipeline](Figures/Results.png)-->
 
 ## Citation
 If you use this framework, please cite our work:
 ```bash
-@article{ISABRSelect,
+@article{OncoTwin,
   title={Digital Twin Enabled Translation of Real-World Evidence into Prospective Clinical Trial Design: Insights from the Phase II BRIGHTSTAR Study in ALK-Rearranged NSCLC},
-  author={},
-  journal={},
-  year={Year},
-  volume={Volume},
-  pages={Pages},
-  doi={DOI}
+  author={Hui Xu, Yasir Y Elamin, Lingzhi Hong, Saumil N Gandhi, Kyle Concannon, Maliazurina B Saad, Xinyan Xu, Amgad Muneer, Waqas Muhammad, Hui Li, Kang Qin, Xiaoyu Han,Sherif M Ismail, Yuliya Kitsel, Mara B Antonoff, Carol C Wu, Brett W Carter, Girish S Shroff, Simon Heeke, Xiuning Le, Tina Cascone, Natalie I Vokes, Mehmet Altan, Don L Gibbons, David Jaffray, Joe Y Chang, Zhongxing Liao, David Rice, Ara A Vaporiciyan, Stephen G Swisher, J. Jack Lee, Jianjun Zhang, John V Heymach, Jia Wu},
+  year={2026}
 }
 ```
-For questions, contributions, or issues, please contact us or create a new issue in this repository.
+For questions, contributions, or issues, please contact us (hxu12@mdanderson.org) or create a new issue in this repository.
+
+## License
+
+This code is released for research and educational use.  
 
 
 
