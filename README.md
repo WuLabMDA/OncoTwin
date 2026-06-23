@@ -44,17 +44,16 @@ Set `"device": "cpu"` in `PARAMS_XGB_AFT` inside `demo1_model_construction.py` t
 - Please see the details in 'README_Demo_VolumetricFeatureExtraction.md'
 
 ### 2. **Prepare the data**
-Each cohort requires **Excel files contains the input features** (including clinical, routine blood test, CT-based tumor volumetrics measuremnet including pre-treatment, post-treatment and delta):
+Each cohort requires **Excel files contains the input features** (including clinical, routine blood test, CT-based tumor volumetrics measuremnet including pre-treatment, post-treatment and delta), such as:
 
 | File | Description |
 |------|-------------|
-| `VolOriginal_clinical_<cohort>.xlsx`  | clincal baseline features |
-| `VolOriginal_Base_before_<cohort>.xlsx` | Pre-treatment volumetric features |
-| `VolOriginal_Base_overall_<cohort>.xlsx`  | overall features including clinical, blood test, CT-based tumor volumetrics measuremnets |
+| `VolOriginal_Base_overall_MDACC.xlsx`  | overall features including clinical, blood test, CT-based tumor volumetrics measuremnets |
+| `VolOriginal_Base_overall_BrightStar.xlsx`  | overall features including clinical, blood test, CT-based tumor volumetrics measuremnets |
 
 Each file must contain:
 - A unique patient identifier column (e.g. `PatientID`)  
-- Tumor volumetrics columns spanning from `TV_Lung` to `ATS_AllTumor`  
+- Tumor volumetrics columns, such as spanning from `TV_Lung` to `ATS_AllTumor`  
 - Clinical columns: `Sex`, `Age`, `Smoker`, `Pathology`, `Drug`, `RECIST`, and lab test values  
 - Outcome columns: `PFS` (time in months), `PFS_events` (0 = censored, 1 = event)
 
@@ -75,7 +74,7 @@ python demo3_risk_stratification_visualization.py  # risk groups, KM plots, SHAP
 
 ## Demo Descriptions
 
-### Demo 1 — Model Construction (`demo1_model_construction.py`)
+### Demo 2 — Model Construction (`demo2_model_construction.py`)
 
 | Step | Description |
 |------|-------------|
