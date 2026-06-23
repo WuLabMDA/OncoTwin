@@ -13,10 +13,11 @@ OncoTwin is a generalizable multimodal digital-twin framework to model individua
 ## Repository Structure
 
 ```
-digital_twins_survival/
-├── demo1_model_construction.py          # Part 1 – Feature engineering & XGBoost-AFT training
-├── demo2_calibration_digital_twin.py    # Part 2 – Post-hoc calibration & DT curve generation
-├── demo3_risk_stratification_visualization.py  # Part 3 – Risk stratification & figures
+OncoTwin_Code/
+├── demo1_VolumetricFeatureExtraction.mat          # Part 1 –  Volumetrics Features Extraction
+├── demo2_model_construction.py          # Part 1 – Feature engineering & XGBoost-AFT training 
+├── demo3_calibration_digital_twin.py    # Part 2 – Post-hoc calibration & DT predicted survival curve
+├── demo4_risk_stratification_visualization.py  # Part 3 – Risk stratification & figures
 ├── utils_survival.py                    # Shared KM / SHAP / stat utility functions
 ├── utils_calibration.py                 # Calibration pipeline (full_calibration_pipeline, etc.)
 └── README.md
@@ -131,11 +132,8 @@ Key functions:
 | `remove_highly_correlated_features` | Pearson correlation pruning |
 | `plot_km_curve` | Two-arm KM plot with at-risk table |
 | `plot_km_curve_dashed` | Two-arm KM plot with configurable line styles |
-| `plot_multi_km` | Multi-arm KM plot with inline at-risk counts |
 | `compare_low_high` | Cox HR + log-rank p for two survival groups |
 | `safe_shap_summary_plot` | Memory-safe SHAP beeswarm + importance CSV |
-| `best_cutoff_per_drug` | Per-drug optimal log-rank cutoff |
-| `compare_cindex_from_ci` | Approximate ΔC-index significance test from CIs |
 
 ### `utils_calibration.py`
 
