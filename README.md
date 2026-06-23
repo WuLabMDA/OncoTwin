@@ -13,30 +13,28 @@ OncoTwin is a generalizable multimodal digital-twin framework to model individua
 ## Repository Structure
 
 ```
-OncoTwin_Code/
-├── demo1_VolumetricFeatureExtraction.mat          # Part 1 –  Volumetrics Features Extraction
-├── demo2_model_construction.py          # Part 1 – Feature engineering & XGBoost-AFT training 
-├── demo3_calibration_digital_twin.py    # Part 2 – Post-hoc calibration & DT predicted survival curve
-├── demo4_risk_stratification_visualization.py  # Part 3 – Risk stratification & figures
-├── utils_survival.py                    # Shared KM / SHAP / stat utility functions
-├── utils_calibration.py                 # Calibration pipeline (full_calibration_pipeline, etc.)
+OncoTwin/
+├── Codes/                                       # Analysis pipeline (run in order)
+│   ├── demo1_VolumetricFeatureExtraction.m      # Part 1 – Volumetric feature extraction
+│   ├── demo2_model_construction.py              # Part 2 – Feature engineering & XGBoost-AFT training
+│   ├── demo3_calibration_digital_twin.py        # Part 3 – Post-hoc calibration & DT survival curves
+│   └── demo4_risk_stratification_visualization.py  # Part 4 – Risk stratification & figures
+├── Utils/                                        # Shared functions
+│   ├── utils_survival.py                         # KM / SHAP / statistical utilities
+│   ├── utils_calibration.py                      # Calibration pipeline (full_calibration_pipeline, etc.)
+│   └── README_VolumetricFeatureExtraction.md        # KM / SHAP / statistical utilities
+├── Figures/                                      # Generated figures & plots
+│   └── Fig. 1_pipeline.jpg                       # Fig. 1
 └── README.md
 ```
 
----
-## Quick Start
-
 ## Installation
-To install the development version of OncoTwin using pip, run the following command:
-```bash
-pip install git+https://github.com/WuLabMDA/OncoTwin.git
-```
 ```bash
 pip install numpy pandas scikit-learn xgboost xgbse lifelines shap \
             matplotlib seaborn scipy dill openpyxl
 ```
 GPU training requires an NVIDIA GPU with CUDA drivers installed.  
-Set `"device": "cpu"` in `PARAMS_XGB_AFT` inside `demo1_model_construction.py` to run on CPU.
+Set `"device": "cpu"` in `PARAMS_XGB_AFT` inside `demo2_model_construction.py` to run on CPU.
 
 ### 1. **Tumor Burden Measurement (`demo1_VolumetricFeatureExtraction.mat`)**
 - **Description**: Extract volumetric Features
@@ -148,62 +146,6 @@ The following functions are imported in Demo 2:
 
 ---
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-### 2. **Model Training**
-- **File**: `S2_BarPlot.py`  
-- **Description**: Visualizes feature selection frequency across models. Generates bar plots and histograms to analyze selected features.  
-- **Inputs**: Model outputs and feature metadata (`Type.xlsx`).  
-- **Outputs**: Feature selection bar plots.
-
-### 3. **Model Calibration and Prediction**
-- **File**: `S2_BarPlot.py`  
-- **Description**: Visualizes feature selection frequency across models. Generates bar plots and histograms to analyze selected features.  
-- **Inputs**: Model outputs and feature metadata (`Type.xlsx`).  
-- **Outputs**: Feature selection bar plots.
-- 
-### 4. **Risk Stratification and Individual Survival Curves Prediction**
-- **File**: `S2_BarPlot.py`  
-- **Description**: Visualizes feature selection frequency across models. Generates bar plots and histograms to analyze selected features.  
-- **Inputs**: Model outputs and feature metadata (`Type.xlsx`).  
-- **Outputs**: Feature selection bar plots.
-
-### 5. **Individual Treatment Effect Estimation**
-- **File**: `S2_BarPlot.py`  
-- **Description**: Visualizes feature selection frequency across models. Generates bar plots and histograms to analyze selected features.  
-- **Inputs**: Model outputs and feature metadata (`Type.xlsx`).  
-- **Outputs**: Feature selection bar plots.
-
 ## Citation
 If you use this framework, please cite our work:
 ```bash
@@ -218,6 +160,7 @@ For questions, contributions, or issues, please contact us (hxu12@mdanderson.org
 ## License
 
 This code is released for research and educational use.  
+See `LICENSE` for details.
 
 
 
