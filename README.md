@@ -37,8 +37,7 @@ pip install numpy pandas scikit-learn xgboost xgbse lifelines shap \
 GPU training requires an NVIDIA GPU with CUDA drivers installed.  
 Set `"device": "cpu"` in `PARAMS_XGB_AFT` inside `demo1_model_construction.py` to run on CPU.
 
-### 1. **Tumor Burden Measurement**
-- **File**: `Demo_VolumetricFeatureExtraction.mat`  
+### 1. **Tumor Burden Measurement (`demo1_VolumetricFeatureExtraction.mat`)**
 - **Description**: Extract volumetric Features
 - End-to-end MATLAB pipeline for extracting Base and Advance volumetric / radiomics features from CT volumes and segmentation masks stored in NIfTI format.
 - Please see the details in 'README_Demo_VolumetricFeatureExtraction.md'
@@ -59,22 +58,7 @@ Each file must contain:
 
 Update the `train_data_dir` and `test_data_dir` paths at the top of **Demo 1**.  [Check this!!!]
 
-### 3. **Run demos in order**
-
-```bash
-python demo2_model_construction.py        # trains model, saves xgb_model.json, SHAP analysis
-python demo2_calibration_digital_twin.py  # calibrates, builds DT curves, estimates ITE
-python demo3_risk_stratification_visualization.py  # risk groups, KM plots, SHAP figures
-```
-
-> **Tip:** Run interactively in JupyterLab by converting each script to a notebook  
-> (`jupytext --to notebook demo1_model_construction.py`).
-
----
-
-## Demo Descriptions
-
-### Demo 2 — Model Construction (`demo2_model_construction.py`)
+### 3. **Model Construction (`demo2_model_construction.py`)**
 
 | Step | Description |
 |------|-------------|
@@ -92,17 +76,18 @@ python demo3_risk_stratification_visualization.py  # risk groups, KM plots, SHAP
 `results/<work_name>/SHAP_importance_*.csv`
 
 ---
-
-### Demo 3 — Calibration & Digital Twin (`demo3_calibration_digital_twin.py`)
+### 4. **Calibration & Digital Twin (`demo3_calibration_digital_twin.py`)**
 
 | Step | Description |
 |------|-------------|
-| Drug-stratified calibration | Fit Weibull / log-normal calibrators per drug arm using `full_calibration_pipeline` |
+| Drug-stratified calibration | Fit Weibull calibrators per drug arm using `full_calibration_pipeline` |
 | Brier score | Compute and plot time-varying Brier score + IBS |
-| Individual DT curves | Plot per-patient predicted survival curves with median / mean annotations |
-| ITE estimation | Estimate ΔRMST (LCT vs. no-LCT) per test patient via `estimate_LCT_ITE_for_test` |
+| Individual OncoTwin-predicted Survival curves | Plot individual predicted survival curves with median / mean annotations |
+| ITE estimation | Estimate invidual ΔRMST (LCT vs. no-LCT) via `estimate_LCT_ITE_for_test` |
 | Counterfactual plot | Plot patient's LCT vs. no-LCT counterfactual survival curves |
 | Export | Save Digital Twin PFS predictions and ITE table to CSV |
+
+Individual OncoTwin-predicted Survival curves
 
 **Key outputs:**  
 `results/model_output/Calibration_*/`  
@@ -111,13 +96,13 @@ python demo3_risk_stratification_visualization.py  # risk groups, KM plots, SHAP
 
 ---
 
-### Demo 3 — Risk Stratification & Visualization (`demo3_risk_stratification_visualization.py`)
+### 5. **Risk Stratification & Visualization (`demo4_risk_stratification_visualization.py`)**
 
 | Step | Description |
 |------|-------------|
 | Optimal cutoff | Log-rank search over percentile grid on training predictions |
 | Risk groups | Assign High / Low risk labels to train and test cohorts |
-| KM plots | Plot KM curves for risk groups; Digital Twin vs. Observed; four-curve overlays | [REMOVE 'four-curve overlays' from the Code!]
+| KM plots | Plot KM curves for risk groups; Digital Twin vs. Observed | 
 | HR computation | Cox proportional hazards HR (High vs. Low; DT vs. Observed) |
 | SHAP aggregation | Overall beeswarm + correlation-filtered top-15 plot |
 | Top-6 bar chart | Publication-style horizontal bar chart of top SHAP features | [REMOVE from the Code!]
@@ -149,13 +134,12 @@ Key functions:
 | `plot_multi_km` | Multi-arm KM plot with inline at-risk counts |
 | `compare_low_high` | Cox HR + log-rank p for two survival groups |
 | `safe_shap_summary_plot` | Memory-safe SHAP beeswarm + importance CSV |
-| `knn_predict_pfs` | KNN-based PFS prediction from risk scores |  [REMOVE from the Code!]
 | `best_cutoff_per_drug` | Per-drug optimal log-rank cutoff |
 | `compare_cindex_from_ci` | Approximate ΔC-index significance test from CIs |
 
 ### `utils_calibration.py`
 
-Calibration-specific utilities (not included in this repository).  
+Calibration-specific utilities.  
 The following functions are imported in Demo 2:
 
 - `full_calibration_pipeline` — fits drug-stratified survival calibrators  
