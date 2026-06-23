@@ -62,7 +62,7 @@ Update the `train_data_dir` and `test_data_dir` paths at the top of **Demo 1**. 
 ### 3. **Run demos in order**
 
 ```bash
-python demo1_model_construction.py        # trains model, saves xgb_model.json + SHAP
+python demo2_model_construction.py        # trains model, saves xgb_model.json, SHAP analysis
 python demo2_calibration_digital_twin.py  # calibrates, builds DT curves, estimates ITE
 python demo3_risk_stratification_visualization.py  # risk groups, KM plots, SHAP figures
 ```
@@ -88,11 +88,12 @@ python demo3_risk_stratification_visualization.py  # risk groups, KM plots, SHAP
 **Key outputs:**  
 `results/model_output/xgb_model.json`  
 `results/model_output/feature_importance_gain.*`  
-`results/model_output/SHAP/SHAP_summary_*.png` [REMOVE from the Code!]
+`results/model_output/SHAP/SHAP_summary_*.png`
+`results/<work_name>/SHAP_importance_*.csv`
 
 ---
 
-### Demo 2 — Calibration & Digital Twin (`demo2_calibration_digital_twin.py`)
+### Demo 3 — Calibration & Digital Twin (`demo3_calibration_digital_twin.py`)
 
 | Step | Description |
 |------|-------------|
