@@ -104,8 +104,6 @@ Individual OncoTwin-predicted Survival curves
 | KM plots | Plot KM curves for risk groups; Digital Twin vs. Observed | 
 | HR computation | Cox proportional hazards HR (High vs. Low; DT vs. Observed) |
 | SHAP aggregation | Overall beeswarm + correlation-filtered top-15 plot |
-| Top-6 bar chart | Publication-style horizontal bar chart of top SHAP features | [REMOVE from the Code!]
-| ITE correlation | Spearman ρ between features and ΔRMST, annotated with significance stars | [REMOVE from the Code!]
 
 **Key outputs:**  
 `results/model_output/KM_*.png`  
@@ -138,11 +136,13 @@ Key functions:
 Calibration-specific utilities.  
 The following functions are imported in Demo 2:
 
-- `full_calibration_pipeline` — fits drug-stratified survival calibrators  
-- `plot_ibs_curve_DT` — plots time-varying Brier score  
-- `plot_patients_survival_DT_split_legend` — plots individual DT survival curves  
-- `estimate_LCT_ITE_for_test` — estimates per-patient ITE (ΔRMST) for LCT  
-- `plot_lct_counterfactual_for_patient` — counterfactual plot for one patient  
+| Function | Description |
+|----------|-------------|
+| `full_calibration_pipeline` | fits drug-stratified survival calibrators |
+| `plot_ibs_curve_DT` | plots time-varying Brier score |
+| `plot_patients_survival_DT_split_legend` | plots individual DT survival curves |
+| `estimate_LCT_ITE_for_test` | estimates per-patient ITE (ΔRMST) for LCT |
+| `plot_lct_counterfactual_for_patient` | counterfactual plot for one patient  |
 
 ---
 
