@@ -33,12 +33,10 @@ OncoTwin/
 pip install numpy pandas scikit-learn xgboost xgbse lifelines shap \
             matplotlib seaborn scipy dill openpyxl
 ```
-GPU training requires an NVIDIA GPU with CUDA drivers installed.  
-Set `"device": "cpu"` in `PARAMS_XGB_AFT` inside `demo2_model_construction.py` to run on CPU.
+GPU training requires an NVIDIA GPU with CUDA drivers installed.
 
 ### 1. **Tumor Burden Measurement (`demo1_VolumetricFeatureExtraction.mat`)**
-- **Description**: Extract volumetric Features
-- End-to-end MATLAB pipeline for extracting Base and Advance volumetric / radiomics features from CT volumes and segmentation masks stored in NIfTI format.
+- **Description**: End-to-end MATLAB pipeline for extracting Base and Advance volumetric / radiomics features from CT volumes and segmentation masks stored in NIfTI format.
 - Please see the details in 'README_Demo_VolumetricFeatureExtraction.md'
 
 ### 2. **Prepare the data**
