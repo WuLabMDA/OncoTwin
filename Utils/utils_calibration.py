@@ -15,7 +15,7 @@ Provided in this module
     plot_lct_counterfactual_for_patient             — per-patient digital-twin predicted survival plot
 =============================================================================
 Dependencies
-------------
+-------------
 numpy, pandas, scikit-learn, matplotlib
 =============================================================================
 """
