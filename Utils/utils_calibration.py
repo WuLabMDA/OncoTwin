@@ -8,32 +8,12 @@ plotting per-patient counterfactual survival curves.
 
 Provided in this module
 ------------------------
-    density_ratio_logit                    — 1-D transport weight estimator
-    density_ratio_logit_multifeature       — multivariate transport weight estimator
-    estimate_LCT_ITE_for_test              — main ITE estimation function
-    plot_lct_counterfactual_for_patient    — per-patient counterfactual plot
-
-NOT provided (supply your own implementation)
-------------------------------------------------
-    full_calibration_pipeline              — drug-stratified calibrator fitting
-    plot_ibs_curve_DT                      — integrated Brier score curve
-    plot_patients_survival_DT_split_legend — multi-patient DT curve plot
-    WeightedParametricCalibrator           — parametric survival calibrator
-                                              class with the following interface:
-        .fit(r, T, E, weights=None)                 -> self
-        .predict_survival_at_times(r, months_grid)   -> np.ndarray (n, t)
-        .predict_median(r)                           -> np.ndarray (n,)
-        .predict_expectation(r)                      -> np.ndarray (n,)
-
-Contents:
     full_calibration_pipeline                       — drug-stratified calibrator fitting
-    plot_ibs_curve_DT                               — integrated Brier score calculation
+    plot_ibs_curve_DT                               — time-varying and integrated Brier score calculation
     plot_patients_survival_DT_split_legend          — individual digital-twin based survival prediction
-    estimate_LCT_ITE_for_test                       — Individual treatment effect estimation
-    plot_lct_counterfactual_for_patient             — Pearson correlation filtering
-""" 
-
-"""
+    estimate_LCT_ITE_for_test                       — Individual treatment effect (ITE) estimation
+    plot_lct_counterfactual_for_patient             — per-patient digital-twin predicted survival plot
+=============================================================================
 Dependencies
 ------------
 numpy, pandas, scikit-learn, matplotlib
