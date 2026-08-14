@@ -224,7 +224,7 @@ df_ite, curves, cals_lct, months_grid = estimate_LCT_ITE_for_test(
     times=(6, 12, 24, 36, 48, 60),
     rmst_tau=36,
     months_max=60,
-    landmark_month=1.5,
+    landmark_month=4.0,
     n_boot=500,
     boot_seed=42,
 )
