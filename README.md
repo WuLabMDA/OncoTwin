@@ -19,10 +19,13 @@ OncoTwin/
 │   ├── demo2_model_construction.py                # Part 2 – Feature engineering & XGBoost-AFT training
 │   ├── demo3_calibration_digital_twin.py          # Part 3 – Post-hoc calibration & DT survival curves
 │   └── demo4_risk_stratification_visualization.py  # Part 4 – Risk stratification & figures
+│   └── demo5_OrganNet_train_inference.py          # Separately Part 5 – OrganNet train and inference
 ├── Utils/                                         # Shared functions
 │   ├── utils_survival.py                          # KM / SHAP / statistical utilities
-│   ├── utils_calibration.py                       # Calibration pipeline (full_calibration_pipeline, etc.)
-│   └── README_Demo_VolumetricFeatureExtraction.md # KM / SHAP / statistical utilities
+│   ├── utils_calibration.py                       # Calibration utilities 
+│   ├── utils_OrganNet.py                          # OrganNet utilities 
+│   └── README_Demo_VolumetricFeatureExtraction.md 
+│   └── README_OrganNet.md
 ├── Figures/                                       # Generated figures & plots
 │   └── Fig. 1_pipeline.jpg                        # Fig. 1
 └── README.md
