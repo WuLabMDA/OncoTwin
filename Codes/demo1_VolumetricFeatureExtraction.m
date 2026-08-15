@@ -95,7 +95,7 @@ for i = 1 : length(patientFolders)
     end
 
     % ------------------------------------------------------------------
-    %  2b. Load CT volume
+    %  2b. LTAd CT volume
     % ------------------------------------------------------------------
     if isempty(CTFilePath) || ~isfile(CTFilePath)
         warning('No CT file found for patient %s – skipping.\n', ...
@@ -204,12 +204,12 @@ fprintf('\nFeature extraction complete.\nResults saved to: %s\n', outFile);
 %        TV       Total Tumor Volume (cm³)
 %        LA       Largest 2-D Area summed across all lesions (cm²)
 %        LD       Largest Diameter summed across all lesions (cm)
-%        LOV      Largest-One Volume (cm³)
-%        LOA      Largest-One Area (cm²)
-%        LOD      Largest-One Diameter (cm)
-%        LZR      Longest Z-axis Range (cm)
+%        LTV      Largest tumor Volume (cm³)
+%        LTA      Largest tumor Area (cm²)
+%        LTD      Largest tumor Diameter (cm)
 %        L2A      Largest-Two-Lesion Area (cm²)
 %        L2D      Largest-Two-Lesion Diameter (cm)
+%        ATS      Average Tumor Size (cm³)
 %
 %      ADVANCE features (computed on 1×1×1 mm isotropic resampling)
 %        MaxEquivD    Equivalent diameter of largest lesion (mm)
@@ -262,7 +262,7 @@ if sum(contains(category, 'base', 'IgnoreCase', true))
         TV = round(sum(stats.Volume) * prod(pixeldim) / 1000, 4);
 
         % Largest-one volume (cm³)
-        LOV = round(sortedStats.Volume(end) * prod(pixeldim) / 1000, 4);
+        LTV = round(sortedStats.Volume(end) * prod(pixeldim) / 1000, 4);
 
         % Per-lesion max 2-D area and max diameter
         Area_all     = zeros(tumor_count, 1);
@@ -288,29 +288,31 @@ if sum(contains(category, 'base', 'IgnoreCase', true))
         end
 
         LA  = sum(Area_all);
-        LOA = max(Area_all);
+        LTA = max(Area_all);
         LA_desc = sort(Area_all, 'descend');
         L2A = sum(LA_desc(1 : min(2, end)));
 
         LD  = sum(maxDiameter);
-        LOD = max(maxDiameter);
+        LTD = max(maxDiameter);
         LD_desc = sort(maxDiameter, 'descend');
         L2D = sum(LD_desc(1 : min(2, end)));
 
         % Longest Z-axis range
-        [~, ~, boxBound] = getSUVbox(CT_image, mask_image);
-        Boxdim = boxBound(:,2) - boxBound(:,1) + 1;
-        LR  = Boxdim .* pixeldim .* 0.1;   % cm
-        LZR = LR(3);
+        % [~, ~, boxBound] = getSUVbox(CT_image, mask_image);
+        % Boxdim = boxBound(:,2) - boxBound(:,1) + 1;
+        % LR  = Boxdim .* pixeldim .* 0.1;   % cm
+        % LZR = LR(3);
+
+        ATS = TV/TC;
 
     else
-        Met=0; TC=0; TV=0; LA=0; LD=0; LOV=0;
-        LOA=0; LOD=0; LZR=0; L2A=0; L2D=0;
+        Met=0; TC=0; TV=0; LA=0; LD=0; LTV=0;
+        LTA=0; LTD=0; LZR=0; L2A=0; L2D=0; ATS=0;
     end
 
     Fea_base = struct('Met',Met,'TC',TC,'TV',TV,'LA',LA,'LD',LD, ...
-                      'LOV',LOV,'LOA',LOA,'LOD',LOD,'LZR',LZR, ...
-                      'L2A',L2A,'L2D',L2D);
+                      'LTV',LTV,'LTA',LTA,'LTD',LTD,'LZR',LZR, ...
+                      'L2A',L2A,'L2D',L2D,'ATS',ATS);
     Feature_all = Fea_base;
 end
 
