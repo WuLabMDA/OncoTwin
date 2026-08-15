@@ -53,7 +53,7 @@ Each file must contain:
 - Clinical columns: `Sex`, `Age`, `Smoker`, `Pathology`, `Drug`, `RECIST`, and lab test values  
 - Outcome columns: `PFS` (time in months), `PFS_events` (0 = censored, 1 = event)
 
-Update the `train_data_dir` and `test_data_dir` paths at the top of **Demo 1**.  [Check this!!!]
+Update the `train_data_dir` and `test_data_dir` paths at the top of **Demo 2**.  
 
 ### 3. **Model Construction (`demo2_model_construction.py`)**
 
