@@ -45,12 +45,13 @@ End-to-end MATLAB pipeline for extracting **Base** and **Advance** volumetric / 
 | `TV` | Base | cm³ | Total tumor volume (sum of all components) |
 | `LA` | Base | cm² | Sum of each lesion's largest 2-D cross-sectional area |
 | `LD` | Base | cm | Sum of each lesion's largest in-plane diameter |
-| `LOV` | Base | cm³ | Volume of the single largest lesion |
-| `LOA` | Base | cm² | Largest 2-D area of the single largest lesion |
-| `LOD` | Base | cm | Largest in-plane diameter of the single largest lesion |
-| `LZR` | Base | cm | Longest extent of the whole mask along the Z (axial) axis |
+| `LTV` | Base | cm³ | Volume of the single largest lesion |
+| `LTA` | Base | cm² | Largest 2-D area of the single largest lesion |
+| `LTD` | Base | cm | Largest in-plane diameter of the single largest lesion |
+| `ATS` | Base | cm³ | Average Tumor Size by using TV divided by TC  |
 | `L2A` | Base | cm² | Sum of the two largest lesion areas (simulated RECIST) |
 | `L2D` | Base | cm | Sum of the two largest lesion diameters (simulated RECIST) |
+(optional)
 | `MaxEquivD` | Advance | mm | Equivalent sphere diameter of the largest lesion |
 | `SumEquivD` | Advance | mm | Sum of equivalent diameters across all lesions |
 | `StdEquivD` | Advance | mm | Standard deviation of equivalent diameters |
