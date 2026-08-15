@@ -14,17 +14,17 @@ OncoTwin is a generalizable multimodal digital-twin framework to model individua
 
 ```
 OncoTwin/
-├── Codes/                                       # Analysis pipeline (run in order)
-│   ├── demo1_VolumetricFeatureExtraction.m      # Part 1 – Volumetric feature extraction
-│   ├── demo2_model_construction.py              # Part 2 – Feature engineering & XGBoost-AFT training
-│   ├── demo3_calibration_digital_twin.py        # Part 3 – Post-hoc calibration & DT survival curves
+├── Codes/                                        # Analysis pipeline (run in order)
+│   ├── demo1_VolumetricFeatureExtraction.m       # Part 1 – Volumetric feature extraction
+│   ├── demo2_model_construction.py               # Part 2 – Feature engineering & XGBoost-AFT training
+│   ├── demo3_calibration_digital_twin.py         # Part 3 – Post-hoc calibration & DT survival curves
 │   └── demo4_risk_stratification_visualization.py  # Part 4 – Risk stratification & figures
-├── Utils/                                        # Shared functions
-│   ├── utils_survival.py                         # KM / SHAP / statistical utilities
-│   ├── utils_calibration.py                      # Calibration pipeline (full_calibration_pipeline, etc.)
+├── Utils/                                         # Shared functions
+│   ├── utils_survival.py                          # KM / SHAP / statistical utilities
+│   ├── utils_calibration.py                       # Calibration pipeline (full_calibration_pipeline, etc.)
 │   └── README_Demo_VolumetricFeatureExtraction.md # KM / SHAP / statistical utilities
-├── Figures/                                      # Generated figures & plots
-│   └── Fig. 1_pipeline.jpg                       # Fig. 1
+├── Figures/                                       # Generated figures & plots
+│   └── Fig. 1_pipeline.jpg                        # Fig. 1
 └── README.md
 ```
 
